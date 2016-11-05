@@ -1,4 +1,3 @@
-/* Simulator = Quartus II Simulator */
 /*
 WARNING: Do NOT edit the input and output ports in this file in a text
 editor if you plan to continue editing the block that represents it in
@@ -26,14 +25,14 @@ HEADER
 	VERSION = 1;
 	TIME_UNIT = ns;
 	DATA_OFFSET = 0.0;
-	DATA_DURATION = 100.0;
+	DATA_DURATION = 200.0;
 	SIMULATION_TIME = 0.0;
 	GRID_PHASE = 0.0;
 	GRID_PERIOD = 10.0;
 	GRID_DUTY_CYCLE = 50;
 }
 
-SIGNAL("D")
+SIGNAL("Clk")
 {
 	VALUE_TYPE = NINE_LEVEL_BIT;
 	SIGNAL_TYPE = SINGLE_BIT;
@@ -43,17 +42,7 @@ SIGNAL("D")
 	PARENT = "";
 }
 
-SIGNAL("Q")
-{
-	VALUE_TYPE = NINE_LEVEL_BIT;
-	SIGNAL_TYPE = SINGLE_BIT;
-	WIDTH = 1;
-	LSB_INDEX = -1;
-	DIRECTION = OUTPUT;
-	PARENT = "";
-}
-
-SIGNAL("Clk")
+SIGNAL("D")
 {
 	VALUE_TYPE = NINE_LEVEL_BIT;
 	SIGNAL_TYPE = SINGLE_BIT;
@@ -73,7 +62,17 @@ SIGNAL("Clr")
 	PARENT = "";
 }
 
-SIGNAL("pin_name1")
+SIGNAL("Set")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "";
+}
+
+SIGNAL("Q")
 {
 	VALUE_TYPE = NINE_LEVEL_BIT;
 	SIGNAL_TYPE = SINGLE_BIT;
@@ -83,30 +82,6 @@ SIGNAL("pin_name1")
 	PARENT = "";
 }
 
-TRANSITION_LIST("D")
-{
-	NODE
-	{
-		REPEAT = 1;
-		LEVEL Z FOR 10.0;
-		LEVEL 0 FOR 10.0;
-		LEVEL 1 FOR 10.0;
-		LEVEL 0 FOR 40.0;
-		LEVEL 1 FOR 10.0;
-		LEVEL 0 FOR 10.0;
-		LEVEL 1 FOR 10.0;
-	}
-}
-
-TRANSITION_LIST("Q")
-{
-	NODE
-	{
-		REPEAT = 1;
-		LEVEL X FOR 100.0;
-	}
-}
-
 TRANSITION_LIST("Clk")
 {
 	NODE
@@ -114,12 +89,22 @@ TRANSITION_LIST("Clk")
 		REPEAT = 1;
 		NODE
 		{
-			REPEAT = 6;
-			LEVEL 0 FOR 7.5;
-			LEVEL 1 FOR 7.5;
+			REPEAT = 20;
+			LEVEL 0 FOR 5.0;
+			LEVEL 1 FOR 5.0;
 		}
-		LEVEL 0 FOR 7.5;
-		LEVEL 1 FOR 2.5;
+	}
+}
+
+TRANSITION_LIST("D")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 1 FOR 30.0;
+		LEVEL 0 FOR 40.0;
+		LEVEL 1 FOR 70.0;
+		LEVEL 0 FOR 60.0;
 	}
 }
 
@@ -128,16 +113,29 @@ TRANSITION_LIST("Clr")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL 0 FOR 100.0;
+		LEVEL 0 FOR 110.0;
+		LEVEL 1 FOR 20.0;
+		LEVEL 0 FOR 70.0;
 	}
 }
 
-TRANSITION_LIST("pin_name1")
+TRANSITION_LIST("Set")
 {
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL X FOR 100.0;
+		LEVEL 0 FOR 150.0;
+		LEVEL 1 FOR 30.0;
+		LEVEL 0 FOR 20.0;
+	}
+}
+
+TRANSITION_LIST("Q")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL X FOR 200.0;
 	}
 }
 
@@ -152,7 +150,7 @@ DISPLAY_LINE
 
 DISPLAY_LINE
 {
-	CHANNEL = "Clr";
+	CHANNEL = "D";
 	EXPAND_STATUS = COLLAPSED;
 	RADIX = Binary;
 	TREE_INDEX = 1;
@@ -161,7 +159,7 @@ DISPLAY_LINE
 
 DISPLAY_LINE
 {
-	CHANNEL = "D";
+	CHANNEL = "Clr";
 	EXPAND_STATUS = COLLAPSED;
 	RADIX = Binary;
 	TREE_INDEX = 2;
@@ -170,7 +168,7 @@ DISPLAY_LINE
 
 DISPLAY_LINE
 {
-	CHANNEL = "Q";
+	CHANNEL = "Set";
 	EXPAND_STATUS = COLLAPSED;
 	RADIX = Binary;
 	TREE_INDEX = 3;
@@ -179,7 +177,7 @@ DISPLAY_LINE
 
 DISPLAY_LINE
 {
-	CHANNEL = "pin_name1";
+	CHANNEL = "Q";
 	EXPAND_STATUS = COLLAPSED;
 	RADIX = Binary;
 	TREE_INDEX = 4;
